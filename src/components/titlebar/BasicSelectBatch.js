@@ -3,12 +3,35 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelectBatch() {
+export default function BasicSelectBatch(props) {
   const [batch, setBatch] = React.useState(1);
+  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChange = (event) => {
     setBatch(event.target.value);
   };
+
+  React.useEffect(() => {
+    async function fetchApi() {
+      setIsLoading(true);
+      try {
+        let response = await fetch(`http://localhost:5000/api/v1/students?batch=${batch}`);
+        response = await response.json();
+        props.setStudents(response.studentsByBatch)
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+      setIsLoading(false);
+    }
+    try {
+      fetchApi();
+    } catch (error) {
+      console.log(error)
+    }
+   
+
+  }, [batch])
 
   return (
     <div>

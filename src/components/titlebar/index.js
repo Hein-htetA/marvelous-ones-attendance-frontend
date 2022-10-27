@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 import BasicSelectBatch from "./BasicSelectBatch";
 import BasicSelectWeek from './BasicSelectWeek';
 
-export default function TitleBar() {
+export default function TitleBar(props) {
     return (
         <Box
             display={'flex'}
@@ -10,7 +10,7 @@ export default function TitleBar() {
             justifyContent={'space-around'}
             backgroundColor='white'
         >
-            <BasicSelectBatch />
+            <BasicSelectBatch setStudents={props.setStudents}/>
             <img src='/images/bigLogo.png' alt='logo' height='80'/>
             <BasicSelectWeek />
         </Box>

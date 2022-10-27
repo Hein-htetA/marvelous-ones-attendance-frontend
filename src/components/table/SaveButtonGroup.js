@@ -3,7 +3,7 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import SaveIcon from '@mui/icons-material/Save';
 
-export default function SaveButtonGroup() {
+export default function SaveButtonGroup(props) {
   return (
     <ButtonGroup 
         aria-label="outlined primary button group"
@@ -17,6 +17,7 @@ export default function SaveButtonGroup() {
     >
       <Button 
         startIcon={<SaveIcon />}
+        onClick={props.attendancePost}
       >
         Save
       </Button>

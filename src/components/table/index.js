@@ -1,26 +1,10 @@
 import './index.css';
 import IconButtonCell from './IconButton';
-import { students } from '../../data/students';
 import * as React from 'react';
 import SaveButtonGroup from './SaveButtonGroup';
 
-export default function Table() {
-    const [student, setStudent] = React.useState(students);
-    console.log(student);
+export default function Table(props) {
 
-    React.useEffect(() => {
-        console.log('in useeffect')
-    }, []);
-
-    const handleClick = (index1, index2) => {
-        setStudent((student) => {
-            const temp = [...student];
-            temp[index1].attendance[0][index2] = !temp[index1].attendance[0][index2]
-            console.log(temp);
-            return temp
-        })
-        console.log('in handleclick')
-    }
     return (
         <>
             <table style={{width: '100%'}}>
@@ -38,8 +22,8 @@ export default function Table() {
                     </tr>
                 </thead>
                 {
-                    student.map((student, index1) => (
-                        <tbody  key={student.no}>
+                    props.students.map((student, index1) => (
+                        <tbody  key={student._id}>
                             <tr>
                                 <td>{student.no}</td>
                                 <td>{student.name}</td>
@@ -48,7 +32,7 @@ export default function Table() {
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}
-                                                handleClick={handleClick}
+                                                handleClick={props.handleClick}
                                                 index1={index1}
                                                 index2={index2}
                                             />
@@ -60,7 +44,7 @@ export default function Table() {
                     ))
                 }
             </table>
-            <SaveButtonGroup />
+            <SaveButtonGroup attendancePost={props.attendancePost}/>
         </>
     )
 }
