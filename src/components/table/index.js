@@ -28,7 +28,7 @@ export default function Table(props) {
                                 <td>{student.no}</td>
                                 <td>{student.name}</td>
                                 {
-                                    student.attendance[0].map((attendance, index2) => (
+                                    student.attendance[props.week].map((attendance, index2) => (
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}

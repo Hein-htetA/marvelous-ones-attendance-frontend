@@ -1,4 +1,4 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import BasicSelectBatch from "./BasicSelectBatch";
 import BasicSelectWeek from './BasicSelectWeek';
 
@@ -12,7 +12,7 @@ export default function TitleBar(props) {
         >
             <BasicSelectBatch setStudents={props.setStudents}/>
             <img src='/images/bigLogo.png' alt='logo' height='80'/>
-            <BasicSelectWeek />
+            <BasicSelectWeek setWeek={props.setWeek} week={props.week}/>
         </Box>
     )
 }

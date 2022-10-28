@@ -5,11 +5,12 @@ import { useState } from "react";
 
 function App() {
   const [students, setStudents] = useState([])
+  const [week, setWeek] = useState(0);
 
   const handleClick = (index1, index2) => {
         setStudents((student) => {
             const temp = [...student];
-            temp[index1].attendance[0][index2] = !temp[index1].attendance[0][index2]
+            temp[index1].attendance[week][index2] = !temp[index1].attendance[week][index2]
             console.log(temp);
             return temp
         })
@@ -17,17 +18,21 @@ function App() {
     }
 
 
-  const attendancePost = () => {
+  const attendancePost = async () => {
+    const idAndAttendance = students.map((student) => {
+      const {_id, attendance} = student;
+      return {_id, attendance}
+    })
     const requestOptions = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(students[0])
+      body: JSON.stringify(idAndAttendance)
     }
-    fetch('http://localhost:5000/api/v1/students', requestOptions)
-      .then(data => console.log(data))
-      .catch(err => console.log(err));
+    const postResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
+    console.log(await postResponse.json())
+    console.log('post complete')
   }
 
   return (
@@ -48,8 +53,17 @@ function App() {
           width: '1000px',
         }}
       >   
-        <TitleBar setStudents={setStudents}/>
-        <Table students={students} handleClick={handleClick} attendancePost={attendancePost}/>
+        <TitleBar 
+          setStudents={setStudents} 
+          setWeek={setWeek}
+          week={week}
+        />
+        <Table 
+          students={students} 
+          handleClick={handleClick} 
+          attendancePost={attendancePost}
+          week={week}
+        />
       </Box>
     </Container>
   );

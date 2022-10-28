@@ -1,4 +1,4 @@
-export const students = [
+const students = [
     {
         no: 1,
         name: "Hein1",
@@ -68,4 +68,11 @@ export const students = [
             Array(6).fill(false)
         ]
     },
-]
+];
+
+const idAndAttendance = students.map((student) => {
+    const {no, attendance} = student;
+    return {no, attendance}
+})
+
+console.log(idAndAttendance);
