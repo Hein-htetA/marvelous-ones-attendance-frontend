@@ -4,6 +4,15 @@ import * as React from 'react';
 import SaveButtonGroup from './SaveButtonGroup';
 
 export default function Table(props) {
+    const handleClick = (index1, index2) => {
+        props.setStudents((student) => {
+            const temp = [...student];
+            temp[index1].attendance[props.week][index2] = !temp[index1].attendance[props.week][index2]
+            console.log(temp);
+            return temp
+        })
+        console.log('in handleclick')
+    }
 
     return (
         <>
@@ -25,14 +34,14 @@ export default function Table(props) {
                     props.students.map((student, index1) => (
                         <tbody  key={student._id}>
                             <tr>
-                                <td>{student.no}</td>
+                                <td>{index1 + 1}</td>
                                 <td>{student.name}</td>
                                 {
                                     student.attendance[props.week].map((attendance, index2) => (
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}
-                                                handleClick={props.handleClick}
+                                                handleClick={handleClick}
                                                 index1={index1}
                                                 index2={index2}
                                             />

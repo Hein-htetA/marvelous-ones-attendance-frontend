@@ -3,9 +3,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function BasicSelectBatch({ setStudents }) {
-  const [batch, setBatch] = React.useState(1);
-  const [isLoading, setIsLoading] = React.useState(false);
+export default function BasicSelectBatch({ setStudents, batch, setBatch, setIsLoading }) {
 
   const handleChange = (event) => {
     setBatch(event.target.value);
