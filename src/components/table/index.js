@@ -5,26 +5,24 @@ import SaveButtonGroup from './SaveButtonGroup';
 
 export default function Table(props) {
 
-    const studentsForTemp = [...props.students]
+    const studentsForTemp = () => [...props.students]
 
-    const [tempStudents, setTempStudents] = React.useState(studentsForTemp);
+    const [tempStudents, setTempStudents] = React.useState(studentsForTemp());
 
     const editAttendance = (index1, index2) => {   
         setTempStudents((tempStudents) => {
             const temp1Students = [...tempStudents]
             temp1Students[index1].attendance[props.week][index2] = !temp1Students[index1].attendance[props.week][index2]  
             return temp1Students
-        })   
+        })  
+        console.log('student for temp');
+        console.log(studentsForTemp);
+
     }
 
     const attendanceReset = () => {
-        setTempStudents(studentsForTemp);
+        setTempStudents(() => studentsForTemp());
       }
-
-    console.log('temp student');
-    console.log(tempStudents);
-    console.log('index student');
-    console.log(props.students);
 
     return (
         <>
