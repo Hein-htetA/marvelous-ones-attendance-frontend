@@ -24,7 +24,6 @@ export default function BasicSelectWeek(props) {
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
       const msg = await patchResponse.json();
-      console.log(msg);
       let response = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`);
       response = await response.json();
       props.setStudents(response.studentsByBatch)    
@@ -32,7 +31,6 @@ export default function BasicSelectWeek(props) {
       console.log(error)
     }
     props.setIsLoading(false)
-    console.log('basic select batch');
   }
 
   const deleteWeek = async () => {
@@ -47,7 +45,6 @@ export default function BasicSelectWeek(props) {
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
       const msg = await patchResponse.json();
-      console.log(msg);
       let response = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`);
       response = await response.json();
       props.setStudents(response.studentsByBatch)
@@ -55,7 +52,6 @@ export default function BasicSelectWeek(props) {
     } catch (error) {
       console.log(error)
     }
-    console.log('basic select batch');
     props.setIsLoading(false)
   }
 

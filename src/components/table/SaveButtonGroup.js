@@ -4,6 +4,26 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import SaveIcon from '@mui/icons-material/Save';
 
 export default function SaveButtonGroup(props) {
+
+  const attendancePost = async () => {
+    const idAndAttendance = props.tempStudents.map((student) => {
+      const {_id, attendance} = student;
+      return {_id, attendance}
+    })
+    const requestOptions = {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(idAndAttendance)
+    }
+    const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
+    const response = patchResponse.json();
+  }
+
+  console.log('props students');
+  console.log(props.students);
+
   return (
     <ButtonGroup 
         aria-label="outlined primary button group"
@@ -17,11 +37,11 @@ export default function SaveButtonGroup(props) {
     >
       <Button 
         startIcon={<SaveIcon />}
-        onClick={props.attendancePost}
+        onClick={attendancePost}
       >
         Save
       </Button>
-      <Button>Cancel</Button>
+      <Button onClick={props.attendanceReset}>Cancel</Button>
     </ButtonGroup>
   );
 }

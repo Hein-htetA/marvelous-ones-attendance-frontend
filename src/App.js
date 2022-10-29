@@ -9,27 +9,13 @@ function App() {
   const [week, setWeek] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  console.log('app js');
+  console.log(students);
   let totalWeek = 1;
   if (students[0]) {
     totalWeek = students[0].attendance.length;
   }
 
-  const attendancePost = async () => {
-    const idAndAttendance = students.map((student) => {
-      const {_id, attendance} = student;
-      return {_id, attendance}
-    })
-    const requestOptions = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(idAndAttendance)
-    }
-    const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
-    console.log(await patchResponse.json())
-    console.log('patch complete')
-  }
 
   return (
     <Container 
@@ -63,7 +49,6 @@ function App() {
           <Table 
             students={students} 
             setStudents={setStudents}
-            attendancePost={attendancePost}
             week={week}
             setIsLoading={setIsLoading}
           />

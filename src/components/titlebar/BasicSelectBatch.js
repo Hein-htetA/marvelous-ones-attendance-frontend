@@ -10,20 +10,20 @@ export default function BasicSelectBatch({ setStudents, batch, setBatch, setIsLo
   };
 
   React.useEffect(() => {
+    console.log('fetching students')
     async function fetchApi() {
       setIsLoading(true);
       try {
         let response = await fetch(`http://localhost:5000/api/v1/students?batch=${batch}`);
         response = await response.json();
         setStudents(response.studentsByBatch)
-        console.log('basic select batch');
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     }
     fetchApi();
-  }, [batch, setStudents])
+  }, [batch, setStudents, setIsLoading])
 
   return (
     <div>

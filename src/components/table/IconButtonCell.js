@@ -5,7 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
 export default function IconButtonCell(props) {
     return (
-        <IconButton aria-label="delete" onClick={() => props.handleClick(props.index1, props.index2)}>
+        <IconButton aria-label="delete" onClick={() => props.editAttendance(props.index1, props.index2)}>
             {props.buttonState ? <CheckIcon /> : <ClearIcon />}
         </IconButton>           
     );

@@ -1,18 +1,30 @@
 import './index.css';
-import IconButtonCell from './IconButton';
+import IconButtonCell from './IconButtonCell';
 import * as React from 'react';
 import SaveButtonGroup from './SaveButtonGroup';
 
 export default function Table(props) {
-    const handleClick = (index1, index2) => {
-        props.setStudents((student) => {
-            const temp = [...student];
-            temp[index1].attendance[props.week][index2] = !temp[index1].attendance[props.week][index2]
-            console.log(temp);
-            return temp
-        })
-        console.log('in handleclick')
+
+    const studentsForTemp = [...props.students]
+
+    const [tempStudents, setTempStudents] = React.useState(studentsForTemp);
+
+    const editAttendance = (index1, index2) => {   
+        setTempStudents((tempStudents) => {
+            const temp1Students = [...tempStudents]
+            temp1Students[index1].attendance[props.week][index2] = !temp1Students[index1].attendance[props.week][index2]  
+            return temp1Students
+        })   
     }
+
+    const attendanceReset = () => {
+        setTempStudents(studentsForTemp);
+      }
+
+    console.log('temp student');
+    console.log(tempStudents);
+    console.log('index student');
+    console.log(props.students);
 
     return (
         <>
@@ -31,7 +43,7 @@ export default function Table(props) {
                     </tr>
                 </thead>
                 {
-                    props.students.map((student, index1) => (
+                    tempStudents.map((student, index1) => (
                         <tbody  key={student._id}>
                             <tr>
                                 <td>{index1 + 1}</td>
@@ -41,7 +53,7 @@ export default function Table(props) {
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}
-                                                handleClick={handleClick}
+                                                editAttendance={editAttendance}
                                                 index1={index1}
                                                 index2={index2}
                                             />
@@ -53,7 +65,12 @@ export default function Table(props) {
                     ))
                 }
             </table>
-            <SaveButtonGroup attendancePost={props.attendancePost}/>
+            <SaveButtonGroup 
+                tempStudents={tempStudents} 
+                setTempStudents={setTempStudents} 
+                students={props.students}
+                attendanceReset={attendanceReset}
+            />
         </>
     )
 }
