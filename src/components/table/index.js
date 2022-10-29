@@ -5,26 +5,21 @@ import SaveButtonGroup from './SaveButtonGroup';
 
 export default function Table(props) {
 
-    const studentsForTemp = [...props.students]
+    const initialState = props.students
 
-    const [tempStudents, setTempStudents] = React.useState(studentsForTemp);
+    const [tempStudents, setTempStudents] = React.useState(initialState);
 
     const editAttendance = (index1, index2) => {   
         setTempStudents((tempStudents) => {
-            const temp1Students = [...tempStudents]
+            const temp1Students = JSON.parse(JSON.stringify(initialState))
             temp1Students[index1].attendance[props.week][index2] = !temp1Students[index1].attendance[props.week][index2]  
             return temp1Students
         })   
     }
 
     const attendanceReset = () => {
-        setTempStudents(studentsForTemp);
-      }
-
-    console.log('temp student');
-    console.log(tempStudents);
-    console.log('index student');
-    console.log(props.students);
+        setTempStudents(initialState);
+    }
 
     return (
         <>
@@ -53,7 +48,7 @@ export default function Table(props) {
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}
-                                                editAttendance={editAttendance}
+                                                attendanceReset={attendanceReset}
                                                 index1={index1}
                                                 index2={index2}
                                             />
