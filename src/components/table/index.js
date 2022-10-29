@@ -2,31 +2,27 @@ import './index.css';
 import IconButtonCell from './IconButtonCell';
 import * as React from 'react';
 import SaveButtonGroup from './SaveButtonGroup';
-import { students as stu } from '../../data/students.js'
 
 export default function Table(props) {
 
-    const initialState = React.useRef(stu)
+    const initialState = props.students
 
     const TableToEdit = () => {
         const [tempStudents, setTempStudents] = React.useState(initialState);
         const editAttendance = (index1, index2) => {   
             setTempStudents((students) => {
-                const temp1Students = [...students]
+                const temp1Students = JSON.parse(JSON.stringify(students))
                 temp1Students[index1].attendance[props.week][index2] =
                     !temp1Students[index1].attendance[props.week][index2]  
 
                 return temp1Students
             })
             console.log('initialState stu');
-            console.log(stu);
+            console.log(initialState);
         }
         const resetAttendance = () => {
-            setTempStudents(stu)
+            setTempStudents(initialState)
         }
-
-        console.log('in table to addit');
-        console.log(tempStudents)
 
         return (
             <>
