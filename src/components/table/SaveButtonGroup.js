@@ -5,22 +5,6 @@ import SaveIcon from '@mui/icons-material/Save';
 
 export default function SaveButtonGroup(props) {
 
-  const attendancePost = async () => {
-    const idAndAttendance = props.tempStudents.map((student) => {
-      const {_id, attendance} = student;
-      return {_id, attendance}
-    })
-    const requestOptions = {
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(idAndAttendance)
-    }
-    const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
-    const response = patchResponse.json();
-  }
-
   return (
     <ButtonGroup 
         aria-label="outlined primary button group"
@@ -32,13 +16,20 @@ export default function SaveButtonGroup(props) {
             justifyContent: 'flex-end',
         }}
     >
-      <Button 
-        startIcon={<SaveIcon />}
-        onClick={attendancePost}
-      >
-        Save
-      </Button>
-      <Button onClick={props.attendanceReset}>Cancel</Button>
+      {props.attendanceUpdateLoading ? 
+        <Button
+        >
+          Saving...
+        </Button>
+        :
+        <Button
+          startIcon={<SaveIcon />}
+          onClick={props.attendancePost}
+        >
+          Save
+        </Button>
+      }
+      <Button disabled={props.attendanceUpdateLoading} onClick={props.attendanceReset}>Cancel</Button>
     </ButtonGroup>
   );
 }

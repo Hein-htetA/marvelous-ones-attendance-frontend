@@ -8,9 +8,10 @@ export default function Table(props) {
     const initialState = props.students
 
     const [tempStudents, setTempStudents] = React.useState(initialState);
+    const [attendanceUpdateLoading, setAttendanceUpdateLoading] = React.useState(false);
 
     const editAttendance = (index1, index2) => {   
-        setTempStudents((tempStudents) => {
+        setTempStudents((initialState) => {
             const temp1Students = JSON.parse(JSON.stringify(initialState))
             temp1Students[index1].attendance[props.week][index2] = !temp1Students[index1].attendance[props.week][index2]  
             return temp1Students
@@ -20,6 +21,25 @@ export default function Table(props) {
     const attendanceReset = () => {
         setTempStudents(initialState);
     }
+
+    const attendancePost = async () => {
+        setAttendanceUpdateLoading(true);
+        const idAndAttendance = tempStudents.map((student) => {
+          const {_id, attendance} = student;
+          return {_id, attendance}
+        })
+        const requestOptions = {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(idAndAttendance)
+        }
+        const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
+        const response = await patchResponse.json();
+        console.log(response);
+        setAttendanceUpdateLoading(false);
+      }
 
     return (
         <>
@@ -48,9 +68,10 @@ export default function Table(props) {
                                         <td key={index2}>
                                             <IconButtonCell 
                                                 buttonState={attendance}
-                                                attendanceReset={attendanceReset}
+                                                editAttendance={editAttendance}
                                                 index1={index1}
                                                 index2={index2}
+                                                attendanceUpdateLoading={attendanceUpdateLoading}
                                             />
                                         </td>
                                     ))
@@ -65,6 +86,8 @@ export default function Table(props) {
                 setTempStudents={setTempStudents} 
                 students={props.students}
                 attendanceReset={attendanceReset}
+                attendancePost={attendancePost}
+                attendanceUpdateLoading={attendanceUpdateLoading}
             />
         </>
     )

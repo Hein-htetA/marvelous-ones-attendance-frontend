@@ -9,8 +9,6 @@ function App() {
   const [week, setWeek] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log('app js');
-  console.log(students);
   let totalWeek = 1;
   if (students[0]) {
     totalWeek = students[0].attendance.length;
