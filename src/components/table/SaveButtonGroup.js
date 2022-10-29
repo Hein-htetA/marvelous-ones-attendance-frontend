@@ -21,9 +21,6 @@ export default function SaveButtonGroup(props) {
     const response = patchResponse.json();
   }
 
-  console.log('props students');
-  console.log(props.students);
-
   return (
     <ButtonGroup 
         aria-label="outlined primary button group"
