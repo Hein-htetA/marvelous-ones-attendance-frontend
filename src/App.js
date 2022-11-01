@@ -3,11 +3,12 @@ import TitleBar from "./components/titlebar";
 import Table from "./components/table";
 import { useState } from "react";
 import LoadingSpinner from "./components/loading";
+import StudentForm from "./components/studentform";
 
 function App() {
   const [students, setStudents] = useState([])
   const [week, setWeek] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   let totalWeek = 1;
   if (students[0]) {
@@ -21,6 +22,7 @@ function App() {
       disableGutters={true}
       sx={{
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'success.light',
@@ -28,13 +30,13 @@ function App() {
     >
       <Box 
         sx={{
-          backgroundColor: "warning.light",
-          height: '1000px',
           width: '1000px',
+          backgroundColor: 'white'
         }}
       >   
         <TitleBar 
           setStudents={setStudents} 
+          students={students}
           setWeek={setWeek}
           week={week}
           totalWeek={totalWeek}
@@ -52,6 +54,7 @@ function App() {
           />
         }
       </Box>
+
     </Container>
   );
 }

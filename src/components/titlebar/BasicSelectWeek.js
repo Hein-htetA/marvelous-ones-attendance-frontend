@@ -63,32 +63,33 @@ export default function BasicSelectWeek(props) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+      <FormControl sx={{ width: '130px' }} size='small'>
         <Select
           value={props.week}
           onChange={handleChange}
           inputProps={{ 'aria-label': 'Without label' }}
+          size='small'
         >
           {
             menuItems
           }
-          <Box sx={{display:'flex', justifyContent: 'space-around'}}>
-            <IconButton 
+          <Box sx={{display:'flex', justifyContent: 'center'}}>
+            <Button 
               aria-label="add" 
               size='small'
               color='error'
               onClick={addWeek}
             >
               <AddIcon />
-            </IconButton>
-            <IconButton 
+            </Button>
+            <Button 
               aria-label="add" 
               size='small'
               color='error'
               onClick={deleteWeek}
             >
               <DeleteIcon />
-            </IconButton>
+            </Button>
           </Box>
         </Select>
       </FormControl>

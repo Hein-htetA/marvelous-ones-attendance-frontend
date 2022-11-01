@@ -1,17 +1,23 @@
+import { InputAdornment, TextField } from '@mui/material';
 import * as React from 'react';
 
 
-export default function BasicSelectBatch({ batch, setBatch }) {
-
-  const handleChange = (event) => {
-
-    setBatch(event.target.value);
-  };
+export default function BasicSelectBatch({ onBlur, onChange, value, invalid }) {
 
   return (
-    <form>
-      <label htmlfor='batch'>batch</label>
-      <input type='number' value={batch} onChange={handleChange}></input>
-    </form>
+    <TextField
+      id="outlined-start-adornment"
+      name='batch'
+      sx={{ width: '150px' }}
+      InputProps={{
+        startAdornment: <InputAdornment position="start">Batch No.</InputAdornment>,
+      }}
+      autoFocus
+      size='small'
+      value={value}
+      error={invalid}
+      onBlur={onBlur}
+      onChange={onChange}
+    />
   );
 }

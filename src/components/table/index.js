@@ -44,7 +44,6 @@ export default function Table(props) {
     return (
         <>
             <table style={{width: '100%'}}>
-                <caption>Elementary Class</caption>
                 <thead>
                     <tr>
                         <th style={{width: '5%'}}>No</th>
