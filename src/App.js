@@ -1,9 +1,12 @@
 import { Box, Container } from "@mui/material";
 import TitleBar from "./components/titlebar";
 import Table from "./components/table";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./components/loading";
 import StudentForm from "./components/studentform";
+import SaveButtonGroup from "./components/table/SaveButtonGroup";
+import Welcome from "./components/welcome";
+import StudentFormModal from "./components/studentform";
 
 function App() {
   const [students, setStudents] = useState([])
@@ -15,6 +18,11 @@ function App() {
     totalWeek = students[0].attendance.length;
   }
 
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
 
   return (
     <Container 
@@ -42,10 +50,21 @@ function App() {
           totalWeek={totalWeek}
           setIsLoading={setIsLoading}
         />
-
         {
+          isFirstRender.current ?
+          <>
+            <Welcome />
+            <Box sx={{pt: 2}}>
+              <StudentFormModal />
+            </Box>
+          </>
+          :
           isLoading ? 
-          <LoadingSpinner /> :
+          <>
+            <LoadingSpinner /> 
+            <SaveButtonGroup />
+          </>
+          :
           <Table 
             students={students} 
             setStudents={setStudents}

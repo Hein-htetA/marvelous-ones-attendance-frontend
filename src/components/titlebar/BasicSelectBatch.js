@@ -4,6 +4,14 @@ import * as React from 'react';
 
 export default function BasicSelectBatch({ onBlur, onChange, value, invalid }) {
 
+  const searchInput = React.useRef(null);
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      searchInput.current.blur();
+      onBlur();
+    }
+  }
+
   return (
     <TextField
       id="outlined-start-adornment"
@@ -12,12 +20,13 @@ export default function BasicSelectBatch({ onBlur, onChange, value, invalid }) {
       InputProps={{
         startAdornment: <InputAdornment position="start">Batch No.</InputAdornment>,
       }}
-      autoFocus
       size='small'
       value={value}
       error={invalid}
       onBlur={onBlur}
       onChange={onChange}
+      onKeyDown={handleKeyDown}
+      inputRef={searchInput}
     />
   );
 }

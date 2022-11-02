@@ -3,22 +3,25 @@ import './formInput.css';
 
 const FormInput = (props) => {
     const [focused, setFocused] = useState(false);
-    const { label, errorMessage, onChange, id, ...inputProps } = props;
+    const { label, errorMsg, onChange, id, onBlur, formSubmit, ...inputProps} = props;
 
-    const handleFocus = (e) => {
+    const handleBlurFocused = (e) => {
+        onBlur();
         setFocused(true);
     }
 
     return (
         <div className="formInput">
-            <label>{label}</label>
+            <div>
+                <label>{label}</label>
+                <span style={{display: focused | formSubmit ? 'inline' : 'none'}}>{errorMsg}</span>
+            </div>
+
             <input 
                 {...inputProps}
                 onChange={onChange}
-                onBlur={handleFocus}
-                focused={focused.toString()}
+                onBlur={handleBlurFocused}
             />
-            <span>{errorMessage}</span>
         </div>
     )
 }

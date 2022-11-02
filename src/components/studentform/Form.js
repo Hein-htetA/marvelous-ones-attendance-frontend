@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { Box, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import './form.css';
 import FormInput from './FormInput';
 
+
 function Form(props) {
-  const [values, setValues] = useState({
+  const [formValues, setFormValues] = useState({
     name: "",
     father: "",
     mother: "",
@@ -13,16 +15,21 @@ function Form(props) {
     level: "elementary"
   });
 
+  const [formErrors, setFormErrors] = useState({});
+  const [formSubmit, setFormSubmit] = useState(false);
+  const [registerStatus, setRegisterStatus] = useState({
+    isLoading: false,
+    err: '',
+    success: false
+  })
+
   const inputs = [
     {
       id: 1,
       name: "name",
       type: "text",
       placeholder: "Name",
-      errorMessage: "Username should be 3-6 characters and shouldn't include any special character!",
       label: "Username",
-      pattern: "^[A-Za-z0-9]{3,16}$",
-      required: true,
     },
     {
       id: 2,
@@ -43,11 +50,7 @@ function Form(props) {
       name: "batch",
       type: "number",
       placeholder: "Batch No.",
-      errorMessage: 
-      "Invalid batch number!",
       label: "Batch Number",
-      pattern: "^[0-9]$",
-      required: true
     },
     {
       id: 5,
@@ -64,38 +67,82 @@ function Form(props) {
       label: "NRC Number",
     },
   ]
+
+  const validate = (values) => {
+    const errors = {};
+    const regex = /^\d{1,2}\/\w{3}/;
+    if (!values.name) {
+      errors.name = "Name is required!"
+    }
+    if (!values.batch) {
+      errors.batch = "Batch is required!"
+    }
+    if (!values.nrc) {
+      errors.nrc = "NRC no is required!"
+    }
+    return errors
+  }
   
-  const handleSubmit = async (e) => {
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && formSubmit === true) {
+      setRegisterStatus({err: false, isLoading: true, success: false})
+      const requestOptions = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({...formValues})
+      };
+      fetch('http://localhost:5000/api/v1/students', requestOptions)
+        .then((response) => {
+          if (!response.ok) {
+            console.log(response)
+            throw Error(response.statusText)
+          }
+          return response.json();
+        }) 
+        .then((data) => {
+          console.log(data);
+          setRegisterStatus({...registerStatus, success: true, isLoading: false})
+        })
+        .catch((err) => {
+          setRegisterStatus({...registerStatus, err: true, isLoading: false})
+        })   
+
+      setFormSubmit(false);
+    }
+  }, [formSubmit, formErrors])
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-    props.setOpen(false);
-    props.setRegistering(true);
-    const requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({...values})
-    };
-    try {
-      const newStudentData = await fetch('http://localhost:5000/api/v1/students', requestOptions);
-      const newStudent = await newStudentData.json();
-      console.log(newStudent);
-      props.setRegistering(false)
-    } catch (error) {
-      console.log(error)
-    }    
+    setFormErrors(validate(formValues));
+    setFormSubmit(true);
+    console.log('in submit');
+  }
+
+  const onBlur = (e) => {
+    console.log('on blur');
+    setFormErrors(validate(formValues))
   }
 
   const onChange = (e) => {
-    setValues({...values, [e.target.name]: e.target.value });
+    setFormValues({...formValues, [e.target.name]: e.target.value });
   }
 
   return (
     <div className="App">
+      <h1>Registration Form</h1>
       <form onSubmit={handleSubmit}>
-        <h1>Register</h1>
         {inputs.map((input) => (
-          <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange}/> 
+          <FormInput 
+            key={input.id} 
+            {...input} 
+            value={formValues[input.name]} 
+            onChange={onChange}
+            onBlur={onBlur}
+            errorMsg={formErrors[input.name]}
+            formSubmit={formSubmit}
+          /> 
         ))}       
         <div className="formInput">
           <label>Level</label>
@@ -107,8 +154,28 @@ function Form(props) {
             <option value="advanced">Advanced</option>
           </select>
         </div>
-        <button>Submit</button>
       </form>
+      {
+        JSON.stringify(formErrors)
+      }
+      <Box
+        sx={{
+          height: '25px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {registerStatus.err && 
+        <Typography variant='body1' color='error'>Something went wrong!</Typography>}
+        {registerStatus.success && 
+        <Typography variant='body1' color='success'>Successfully Registered</Typography>}
+      </Box>
+      {
+      registerStatus.isLoading ? 
+        <button disabled>Registering</button> : 
+        <button onClick={handleSubmit}>Register</button>
+      }
     </div>
   );
 }
