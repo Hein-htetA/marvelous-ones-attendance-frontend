@@ -9,9 +9,11 @@ export default function Welcome() {
                 height: '350px',
                 justifyContent: 'center',
                 alignItems: 'center',
+                flexDirection: 'column'
             }}
         >
             <Typography variant="h2">...Marvelous Ones...</Typography>
+            <input placeholder="enter password"/>
         </Box>
     )
 }

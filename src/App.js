@@ -1,17 +1,20 @@
 import { Box, Container } from "@mui/material";
 import TitleBar from "./components/titlebar";
 import Table from "./components/table";
-import { useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./components/loading";
 import StudentForm from "./components/studentform";
 import SaveButtonGroup from "./components/table/SaveButtonGroup";
 import Welcome from "./components/welcome";
 import StudentFormModal from "./components/studentform";
 
+const LoginContext = createContext();
+
 function App() {
   const [students, setStudents] = useState([])
   const [week, setWeek] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
 
   let totalWeek = 1;
   if (students[0]) {
@@ -67,13 +70,10 @@ function App() {
           :
           <Table 
             students={students} 
-            setStudents={setStudents}
             week={week}
-            setIsLoading={setIsLoading}
           />
         }
       </Box>
-
     </Container>
   );
 }
