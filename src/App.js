@@ -45,34 +45,36 @@ function App() {
           backgroundColor: 'white'
         }}
       >   
-        <TitleBar 
-          setStudents={setStudents} 
-          students={students}
-          setWeek={setWeek}
-          week={week}
-          totalWeek={totalWeek}
-          setIsLoading={setIsLoading}
-        />
-        {
-          isFirstRender.current ?
-          <>
-            <Welcome />
-            <Box sx={{pt: 2}}>
-              <StudentFormModal />
-            </Box>
-          </>
-          :
-          isLoading ? 
-          <>
-            <LoadingSpinner /> 
-            <SaveButtonGroup />
-          </>
-          :
-          <Table 
-            students={students} 
+        <LoginContext.Provider value={isLogin}>
+          <TitleBar 
+            setStudents={setStudents} 
+            students={students}
+            setWeek={setWeek}
             week={week}
+            totalWeek={totalWeek}
+            setIsLoading={setIsLoading}
           />
-        }
+          {
+            isFirstRender.current ?
+            <>
+              <Welcome setIsLogin={setIsLogin}/>
+              <Box sx={{pt: 2}}>
+                <StudentFormModal />
+              </Box>
+            </>
+            :
+            isLoading ? 
+            <>
+              <LoadingSpinner /> 
+              <SaveButtonGroup />
+            </>
+            :
+            <Table 
+              students={students} 
+              week={week}
+            />
+          }
+        </LoginContext.Provider>
       </Box>
     </Container>
   );
