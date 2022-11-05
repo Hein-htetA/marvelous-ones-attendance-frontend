@@ -3,12 +3,11 @@ import TitleBar from "./components/titlebar";
 import Table from "./components/table";
 import { createContext, useEffect, useRef, useState } from "react";
 import LoadingSpinner from "./components/loading";
-import StudentForm from "./components/studentform";
 import SaveButtonGroup from "./components/table/SaveButtonGroup";
 import Welcome from "./components/welcome";
 import StudentFormModal from "./components/studentform";
 
-const LoginContext = createContext();
+export const LoginContext = createContext();
 
 function App() {
   const [students, setStudents] = useState([])
@@ -20,6 +19,7 @@ function App() {
   if (students[0]) {
     totalWeek = students[0].attendance.length;
   }
+  console.log(totalWeek);
 
   const isFirstRender = useRef(true);
 
@@ -55,18 +55,21 @@ function App() {
             setIsLoading={setIsLoading}
           />
           {
-            isFirstRender.current ?
-            <>
-              <Welcome setIsLogin={setIsLogin}/>
-              <Box sx={{pt: 2}}>
-                <StudentFormModal />
-              </Box>
-            </>
-            :
             isLoading ? 
             <>
               <LoadingSpinner /> 
               <SaveButtonGroup />
+            </> 
+            :
+            students.length === 0 ?
+            <>
+              <Welcome setIsLogin={setIsLogin} isLogin={isLogin}/>
+              {
+                isFirstRender &&
+                <Box sx={{pt: 2}}>
+                  <StudentFormModal />
+                </Box>
+              }
             </>
             :
             <Table 

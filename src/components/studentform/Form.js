@@ -90,6 +90,7 @@ function Form(props) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
         },
         body: JSON.stringify({...formValues})
       };

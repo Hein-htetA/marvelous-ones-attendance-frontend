@@ -13,20 +13,28 @@ export default function BasicSelectWeek(props) {
   };
 
   const addWeek = async () => {
-    props.setIsLoading(true)
+    props.setIsLoading(true);
     const requestOptions = {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
       },
       body: JSON.stringify({batch: props.batch})
     }
+    const getRequestOptions = {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+      }
+    }
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
-      const msg = await patchResponse.json();
-      let response = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`);
-      response = await response.json();
-      props.setStudents(response.studentsByBatch)    
+      const patchData = await patchResponse.json();
+      console.log(patchData);
+      const getResponse = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`
+                                  ,getRequestOptions);
+      const getData = await getResponse.json();
+      props.setStudents(getData.studentsByBatch)    
     } catch (error) {
       console.log(error)
     }
@@ -39,15 +47,23 @@ export default function BasicSelectWeek(props) {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
       },
       body: JSON.stringify({batch: props.batch})
     }
+    const getRequestOptions = {
+      headers: {
+        'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
+      }
+    }
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
-      const msg = await patchResponse.json();
-      let response = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`);
-      response = await response.json();
-      props.setStudents(response.studentsByBatch)
+      const patchData = await patchResponse.json();
+      console.log(patchData);
+      const getResponse = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`
+                                      ,getRequestOptions);
+      const getData = await getResponse.json();
+      props.setStudents(getData.studentsByBatch)   
       props.setWeek(0)    
     } catch (error) {
       console.log(error)
@@ -69,6 +85,11 @@ export default function BasicSelectWeek(props) {
           onChange={handleChange}
           inputProps={{ 'aria-label': 'Without label' }}
           size='small'
+          disabled={!props.isLogin}
+          sx={{ 
+            '& legend': { display: 'none' },
+            '& fieldset': { top: 0 }
+          }}
         >
           {
             menuItems

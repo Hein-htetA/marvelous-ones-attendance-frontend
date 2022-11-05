@@ -2,7 +2,7 @@ import { Box, InputAdornment, TextField } from '@mui/material';
 import * as React from 'react';
 
 
-export default function BasicSelectBatch({ onBlur, onChange, value, invalid }) {
+export default function BasicSelectBatch({ onBlur, onChange, value, invalid, isLogin }) {
 
   const searchInput = React.useRef(null);
   const handleKeyDown = (event) => {
@@ -32,8 +32,9 @@ export default function BasicSelectBatch({ onBlur, onChange, value, invalid }) {
         onChange={onChange}
         onKeyDown={handleKeyDown}
         inputRef={searchInput}
+        disabled={!isLogin}
       />
-      {invalid && <span>Invalid Batch</span>}
+      {invalid && <span>Invalid Batch Number</span>}
     </Box>
   );
 }

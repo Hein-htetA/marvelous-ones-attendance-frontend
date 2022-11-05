@@ -1,19 +1,27 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, styled, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
+
+const LoginTypography = styled(Typography)(() => ({
+    fontSize: '1rem',
+    fontWeight: 'bold'
+}))
 
 export default function Welcome(props) {
     const [password, setPassword] = useState('');
-    const [isPasswordVerifying, setIsPasswordVerifying] = useState(false);
-    const [isWrongPassword, setIsWrongPassword] = useState(false)
+    const [passwordStatus, setPasswordStatus] = useState({
+        verifying: false,
+        wrongPassword: false
+    })
 
     const searchInput = useRef(null);
 
-    onchange = (e) => {
+    const onChange = (e) => {
+        setPasswordStatus({...passwordStatus, wrongPassword: false})
         setPassword(e.target.value);
     }
 
     const onClick = async () => {
-        setIsPasswordVerifying(true);
+        setPasswordStatus({...passwordStatus, verifying: true})
         const requestOptions = {
         method: 'POST',
         headers: {
@@ -23,13 +31,13 @@ export default function Welcome(props) {
         }
         try {
             let response = await fetch(`http://localhost:5000/api/v1/auth/login`, requestOptions);
-            console.log(response);
+            let data = await response.json();
             if (!response.ok) {
-               setIsWrongPassword(true);
-               setIsPasswordVerifying(false);
+               setPasswordStatus({verifying: false, wrongPassword: true})
             } else {
-                setIsPasswordVerifying(false);
+                setPasswordStatus({...passwordStatus, verifying: false})
                 props.setIsLogin(true);
+                sessionStorage.setItem('jwtToken', data.token)
             }
           } catch (error) {
             console.log(error);
@@ -43,6 +51,8 @@ export default function Welcome(props) {
         }
     }
 
+    console.log(passwordStatus);
+
     return(
         <Box
             sx={{
@@ -55,24 +65,61 @@ export default function Welcome(props) {
             }}
         >
             <Typography variant="h2">...Marvelous Ones...</Typography>
-            <Box display={'flex'} alignItems='center'>
-                <TextField
-                    sx={{
-                        '& legend': { display: 'none' },
-                        '& fieldset': { top: 0 },
-                      }}
-                    id="outlined-error"
-                    defaultValue="Hello World"
-                    size='small'
-                />
-                <Button 
-                    size='small'
-                    onClick={onClick}
-                    onKeyDown={handleKeyDown}
-                >Login</Button>
-                {isPasswordVerifying && <h1>verifying</h1>}
-            </Box>
+                <Box 
+                    display={'flex'} 
+                    alignItems='center'
+                   
+                >
+                    {!props.isLogin ?
+                    <Box 
+                        display={'flex'} 
+                        justifyContent='center' 
+                        alignItems={'center'} 
+                        sx={{
+                            width: '500px'
+                        }}
+                    >
+                        <TextField
+                            autoFocus
+                            sx={{
+                                '& legend': { display: 'none' },
+                                '& fieldset': { top: 0 },
+                            }}
+                            id="outlined-error"
+                            size='small'
+                            placeholder='Enter Password'
+                            onChange={onChange}
+                            onKeyDown={handleKeyDown}
+                            inputRef={searchInput}
+                        />
+                        <Button 
+                            size='small'
+                            onClick={onClick}
+                            onKeyDown={handleKeyDown}
+                            variant='contained'
+                            sx={{
+                                width: '110px',
+                                mx: '10px',
+                                height: '40px',
+                                padding: '10px'
+                            }}
+                        >
+                            {
+                                passwordStatus.verifying ? 
+                                <LoginTypography variant="subtitle2">Verifying</LoginTypography> : 
+                                passwordStatus.wrongPassword ?
+                                <LoginTypography sx={{lineHeight: '1.1'}}>Wrong Pasword!</LoginTypography> : 
+                                <LoginTypography>Login</LoginTypography>
+                            }
+                        </Button>
+                    </Box>
 
+                    :
+
+                    <h1>Login Successfully</h1>
+                    }
+                </Box>
+     
         </Box>
     )
 }

@@ -32,13 +32,18 @@ export default function Table(props) {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${sessionStorage.getItem('jwtToken')}`
           },
           body: JSON.stringify(idAndAttendance)
         }
-        const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
-        const response = await patchResponse.json();
-        console.log(response);
-        setAttendanceUpdateLoading(false);
+        try {
+            const patchResponse = await fetch('http://localhost:5000/api/v1/students', requestOptions)
+            const response = await patchResponse.json();
+            console.log(response);
+            setAttendanceUpdateLoading(false);         
+        } catch (error) {
+            console.log(error)
+        }
       }
 
     return (
