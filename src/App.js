@@ -36,7 +36,8 @@ function App() {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'success.light',
+        backgroundColor: '#b0bec5',
+        minHeight: '100vh'
       }}
     >
       <Box 

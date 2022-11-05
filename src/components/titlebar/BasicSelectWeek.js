@@ -2,7 +2,7 @@ import * as React from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { Box, Button, IconButton } from '@mui/material';
+import { Box, Button, IconButton, styled } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -88,7 +88,7 @@ export default function BasicSelectWeek(props) {
           disabled={!props.isLogin}
           sx={{ 
             '& legend': { display: 'none' },
-            '& fieldset': { top: 0 }
+            '& fieldset': { top: 0 },
           }}
         >
           {
@@ -100,6 +100,11 @@ export default function BasicSelectWeek(props) {
               size='small'
               color='error'
               onClick={addWeek}
+              sx={{
+                height: '30px',
+                py: '0px',
+                mt: 1
+              }}
             >
               <AddIcon />
             </Button>
@@ -108,6 +113,11 @@ export default function BasicSelectWeek(props) {
               size='small'
               color='error'
               onClick={deleteWeek}
+              sx={{
+                height: '30px',
+                py: '0px',
+                mt: 1
+              }}
             >
               <DeleteIcon />
             </Button>

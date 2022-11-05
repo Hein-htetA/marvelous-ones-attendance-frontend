@@ -1,10 +1,15 @@
 table, th, td {
-    border: 1px solid red;
+    border: 1px solid #b0bec5;
     border-collapse: collapse;
 }
 
+thead th {
+    padding: 8px;
+}
+
+
 th, td {
-    background-color: #96D4D4;
+    background-color: #b3e5fc;
     text-align: center;
 }
 

@@ -1,5 +1,5 @@
-import { Box, Button, Typography } from "@mui/material";
-import { useState, useEffect, useContext } from "react";
+import { Box, Typography } from "@mui/material";
+import { useState, useContext } from "react";
 import { LoginContext } from "../../App";
 import BasicSelectBatch from "./BasicSelectBatch";
 import BasicSelectWeek from './BasicSelectWeek';
@@ -51,7 +51,6 @@ export default function TitleBar(props) {
       <>
           <Box
             display={'flex'}
-            backgroundColor='white'
             alignItems={'center'}
             justifyContent={'center'}
             sx={{
@@ -61,17 +60,19 @@ export default function TitleBar(props) {
             <Box 
               display='flex'
               justifyContent={'center'} 
+              my='8px'
             >
-              <img src='/images/bigLogo.png' alt='logo' height='80'/>
+              <img src='/images/bigLogo.png' alt='logo' height='90'/>
             </Box>
           </Box>
           <Box 
             display='flex'
             alignItems={'center'}
-            justifyContent={'space-between'}
+            justifyContent={'space-around'}
 
             sx={{
-              pb: 2
+              py: 2,
+              borderTop: '2px solid #b0bec5'
             }}
           >
             <BasicSelectBatch 
@@ -81,7 +82,12 @@ export default function TitleBar(props) {
               invalid={invalid}
               isLogin={isLogin}
             />
-            <Typography variant='h5'>{courseName}</Typography>
+            <Typography 
+              variant='h5'
+              color="#1a237e"
+            >
+              {courseName}
+            </Typography>
             <BasicSelectWeek 
               batch={batch} 
               setWeek={props.setWeek} 

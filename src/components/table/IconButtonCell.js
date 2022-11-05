@@ -8,6 +8,11 @@ export default function IconButtonCell(props) {
         <IconButton aria-label="delete" 
          onClick={() => props.editAttendance(props.index1, props.index2)}
          disabled={props.attendanceUpdateLoading}
+         disableRipple={true}
+         sx={{
+            borderRadius: '0px',
+            
+         }}
         >
             {props.buttonState ? 
             <CheckIcon /> : <ClearIcon />}
