@@ -27,11 +27,13 @@ export default function SaveButtonGroup(props) {
       >
         {props.attendanceUpdateLoading ? 
           <Button
+            color='info'
           >
             Saving...
           </Button>
           :
           <Button
+            color='info'
             startIcon={<SaveAltIcon sx={{color: "white"}}/>}
             onClick={props.attendancePost}
           >
@@ -39,6 +41,7 @@ export default function SaveButtonGroup(props) {
           </Button>
         }
         <Button 
+          color='info'
           disabled={props.attendanceUpdateLoading} 
           onClick={props.attendanceReset}
         >

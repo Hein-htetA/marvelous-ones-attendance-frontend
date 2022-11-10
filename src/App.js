@@ -19,13 +19,6 @@ function App() {
   if (students[0]) {
     totalWeek = students[0].attendance.length;
   }
-  console.log(totalWeek);
-
-  const isFirstRender = useRef(true);
-
-  useEffect(() => {
-    isFirstRender.current = false;
-  }, []);
 
   return (
     <Container 
@@ -33,17 +26,16 @@ function App() {
       disableGutters={true}
       sx={{
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#b0bec5',
-        minHeight: '100vh'
+        justifyContent: 'center'
       }}
     >
       <Box 
         sx={{
+          display: 'flex',
+          flexDirection: 'column',
           width: '1000px',
-          backgroundColor: 'white'
+          backgroundColor: 'white',
+          minHeight: '100vh'
         }}
       >   
         <LoginContext.Provider value={isLogin}>
@@ -64,13 +56,13 @@ function App() {
             :
             students.length === 0 ?
             <>
-              <Welcome setIsLogin={setIsLogin} isLogin={isLogin}/>
-              {
-                isFirstRender &&
-                <Box sx={{pt: 2}}>
-                  <StudentFormModal />
-                </Box>
-              }
+              <Welcome 
+                setIsLogin={setIsLogin} 
+                isLogin={isLogin}
+              />
+              <Box sx={{pt: 2}}>
+                <StudentFormModal />
+              </Box>
             </>
             :
             <Table 

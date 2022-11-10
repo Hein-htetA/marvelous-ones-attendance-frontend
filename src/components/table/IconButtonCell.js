@@ -11,11 +11,30 @@ export default function IconButtonCell(props) {
          disableRipple={true}
          sx={{
             borderRadius: '0px',
-            
+            // '&:hover': {
+            //     backgroundColor: '#006064',
+            //     color: 'white'
+            // }
          }}
         >
             {props.buttonState ? 
-            <CheckIcon /> : <ClearIcon />}
+            <CheckIcon 
+                fontSize='medium' 
+                color='white'
+                sx={{
+                    backgroundColor: 'green',
+                    color: 'white',
+                    borderRadius: '20%'
+                }}
+            /> : 
+            <ClearIcon fontSize='medium'
+                sx={{
+                    backgroundColor: '#c4001d',
+                    color: 'white',
+                    borderRadius: '20%'
+                }}
+            />
+            }
         </IconButton>           
     );
 }

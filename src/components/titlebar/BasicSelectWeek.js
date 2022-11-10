@@ -29,14 +29,20 @@ export default function BasicSelectWeek(props) {
     }
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
+      if (!patchResponse.ok) {
+        throw Error(patchResponse.statusText)
+      }
       const patchData = await patchResponse.json();
-      console.log(patchData);
       const getResponse = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`
                                   ,getRequestOptions);
+      if (!getResponse.ok) {
+        throw Error(patchResponse.statusText)
+      }
       const getData = await getResponse.json();
       props.setStudents(getData.studentsByBatch)    
     } catch (error) {
       console.log(error)
+      props.setStudents([])
     }
     props.setIsLoading(false)
   }
@@ -58,15 +64,23 @@ export default function BasicSelectWeek(props) {
     }
     try {
       const patchResponse = await fetch('http://localhost:5000/api/v1/course', requestOptions);
+      if (!patchResponse.ok) {
+        throw Error(patchResponse.statusText)
+      }
       const patchData = await patchResponse.json();
-      console.log(patchData);
+
       const getResponse = await fetch(`http://localhost:5000/api/v1/students?batch=${props.batch}`
                                       ,getRequestOptions);
+      if (!getResponse.ok) {
+        throw Error(patchResponse.statusText)
+      }
       const getData = await getResponse.json();
+
       props.setStudents(getData.studentsByBatch)   
       props.setWeek(0)    
     } catch (error) {
       console.log(error)
+      props.setStudents([]);
     }
     props.setIsLoading(false)
   }

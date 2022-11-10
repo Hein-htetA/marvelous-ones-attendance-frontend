@@ -1,15 +1,18 @@
 table, th, td {
     border: 1px solid #b0bec5;
     border-collapse: collapse;
+    flex: 1;
 }
 
 thead th {
     padding: 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
 }
 
 
 th, td {
-    background-color: #b3e5fc;
+    background-color: #e8f5e9;
     text-align: center;
 }
 
@@ -18,7 +21,9 @@ caption {
     font-size: 1.5rem;
 }
 
-tbody > tr :nth-child(2) {
+tbody > tr > :nth-child(2) {
     text-align: left;
     padding-left: 10px;
+    position: relative;
+    overflow: hidden;
 }

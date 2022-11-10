@@ -1,5 +1,5 @@
 import { Box, Button, styled, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const LoginTypography = styled(Typography)(() => ({
     fontSize: '1rem',
@@ -51,74 +51,74 @@ export default function Welcome(props) {
         }
     }
 
-    console.log(passwordStatus);
-
     return(
         <Box
             sx={{
                 display: 'flex',
                 width: '100%',
-                height: '350px',
                 justifyContent: 'center',
                 alignItems: 'center',
-                flexDirection: 'column'
+                flexDirection: 'column',
+                flex: 1
             }}
         >
             <Typography variant="h2">...Marvelous Ones...</Typography>
+            {!props.isLogin ?
                 <Box 
                     display={'flex'} 
-                    alignItems='center'
-                   
+                    justifyContent='center' 
+                    alignItems={'center'} 
+                    sx={{
+                        width: '500px'
+                    }}
                 >
-                    {!props.isLogin ?
-                    <Box 
-                        display={'flex'} 
-                        justifyContent='center' 
-                        alignItems={'center'} 
+                    <TextField
+                        autoFocus
                         sx={{
-                            width: '500px'
+                            '& legend': { display: 'none' },
+                            '& fieldset': { top: 0 },
+                        }}
+                        id="outlined-error"
+                        size='small'
+                        placeholder='Enter Password'
+                        onChange={onChange}
+                        onKeyDown={handleKeyDown}
+                        inputRef={searchInput}
+                    />
+                    <Button 
+                        size='small'
+                        onClick={onClick}
+                        onKeyDown={handleKeyDown}
+                        variant='contained'
+                        sx={{
+                            width: '110px',
+                            mx: '10px',
+                            height: '40px',
+                            padding: '10px'
                         }}
                     >
-                        <TextField
-                            autoFocus
-                            sx={{
-                                '& legend': { display: 'none' },
-                                '& fieldset': { top: 0 },
-                            }}
-                            id="outlined-error"
-                            size='small'
-                            placeholder='Enter Password'
-                            onChange={onChange}
-                            onKeyDown={handleKeyDown}
-                            inputRef={searchInput}
-                        />
-                        <Button 
-                            size='small'
-                            onClick={onClick}
-                            onKeyDown={handleKeyDown}
-                            variant='contained'
-                            sx={{
-                                width: '110px',
-                                mx: '10px',
-                                height: '40px',
-                                padding: '10px'
-                            }}
-                        >
-                            {
-                                passwordStatus.verifying ? 
-                                <LoginTypography variant="subtitle2">Verifying</LoginTypography> : 
-                                passwordStatus.wrongPassword ?
-                                <LoginTypography sx={{lineHeight: '1.1'}}>Wrong Pasword!</LoginTypography> : 
-                                <LoginTypography>Login</LoginTypography>
-                            }
-                        </Button>
-                    </Box>
-
-                    :
-
-                    <h1>Login Successfully</h1>
-                    }
+                        {
+                            passwordStatus.verifying ? 
+                            <LoginTypography variant="subtitle2">Verifying</LoginTypography> : 
+                            passwordStatus.wrongPassword ?
+                            <LoginTypography sx={{lineHeight: '1.1'}}>Wrong Pasword!</LoginTypography> : 
+                            <LoginTypography>Login</LoginTypography>
+                        }
+                    </Button>
                 </Box>
+
+                :
+
+                <Typography 
+                    variant="h5" 
+                    color='#005005'
+                    sx={{
+                        height: '40px',
+                    }}
+                >
+                    Logged In Successfully
+                </Typography>
+            }
      
         </Box>
     )

@@ -7,11 +7,16 @@ import FormInput from './FormInput';
 function Form(props) {
   const [formValues, setFormValues] = useState({
     name: "",
+    batch: "",
     father: "",
     mother: "",
-    batch: "",
+    birthDate: "",
     address: "",
+    contactNo: "",
+    education: "",
     nrc: "",
+    occupation: "",
+    jobDepartment: "",
     level: "elementary"
   });
 
@@ -19,8 +24,9 @@ function Form(props) {
   const [formSubmit, setFormSubmit] = useState(false);
   const [registerStatus, setRegisterStatus] = useState({
     isLoading: false,
-    err: '',
-    success: false
+    err: false,
+    success: false,
+    result: {}
   })
 
   const inputs = [
@@ -29,56 +35,89 @@ function Form(props) {
       name: "name",
       type: "text",
       placeholder: "Name",
-      label: "Username",
+      label: "Name",
     },
     {
       id: 2,
+      name: "batch",
+      type: "number",
+      placeholder: "Batch Number",
+      label: "Batch Number",
+    },
+    {
+      id: 3,
       name: "father",
       type: "text",
       placeholder: "Father's Name",
       label: "Father",
     },
     {
-      id: 3,
+      id: 4,
       name: "mother",
       type: "text",
       placeholder: "Mother's Name",
       label: "Mother"
     },
     {
-      id: 4,
-      name: "batch",
-      type: "number",
-      placeholder: "Batch No.",
-      label: "Batch Number",
+      id: 5,
+      name: "birthDate",
+      type: "date",
+      placeholder: 'Birth Date',
+      label: "Birth Date"
     },
     {
-      id: 5,
+      id: 6,
       name: "address",
       type: "text",
       placeholder: "Address",
       label: "Address",
     },
     {
-      id: 6,
+      id: 7,
+      name: "contactNo",
+      type: "text",
+      placeholder: "Contact No.",
+      label: "Contact No.",
+    },
+    {
+      id: 8,
+      name: "education",
+      type: "text",
+      placeholder: "Education",
+      label: "Education",
+    },
+    {
+      id: 9,
       name: "nrc",
       type: "text",
-      placeholder: "NRC No.",
+      placeholder: "NRC Number",
       label: "NRC Number",
     },
+    {
+      id: 10,
+      name: "occupation",
+      type: "text",
+      placeholder: "Occupation",
+      label: "Occupation",
+    },
+    {
+      id: 11,
+      name: "jobDepartment",
+      type: "text",
+      placeholder: "Job Department",
+      label: "Job Department",
+    } 
   ]
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^\d{1,2}\/\w{3}/;
     if (!values.name) {
-      errors.name = "Name is required!"
-    }
+      errors.name = "is required!"
+    } 
     if (!values.batch) {
-      errors.batch = "Batch is required!"
-    }
-    if (!values.nrc) {
-      errors.nrc = "NRC no is required!"
+      errors.batch = "is required!"
+    } else if (values.batch < 1) {
+      errors.batch = "is not valid!"
     }
     return errors
   }
@@ -103,11 +142,11 @@ function Form(props) {
           return response.json();
         }) 
         .then((data) => {
-          console.log(data);
-          setRegisterStatus({...registerStatus, success: true, isLoading: false})
+          console.log(data)
+          setRegisterStatus({err: false, success: true, isLoading: false, result: data.name})
         })
         .catch((err) => {
-          setRegisterStatus({...registerStatus, err: true, isLoading: false})
+          setRegisterStatus({success: false, err: true, isLoading: false})
         })   
 
       setFormSubmit(false);
@@ -118,21 +157,20 @@ function Form(props) {
     e.preventDefault();
     setFormErrors(validate(formValues));
     setFormSubmit(true);
-    console.log('in submit');
   }
 
   const onBlur = (e) => {
-    console.log('on blur');
     setFormErrors(validate(formValues))
   }
 
   const onChange = (e) => {
     setFormValues({...formValues, [e.target.name]: e.target.value });
+    setRegisterStatus({isLoading: false, err: false, success: false})
   }
 
   return (
     <div className="App">
-      <h1>Registration Form</h1>
+      <h1>Registeration Form</h1>
       <form onSubmit={handleSubmit}>
         {inputs.map((input) => (
           <FormInput 
@@ -143,8 +181,10 @@ function Form(props) {
             onBlur={onBlur}
             errorMsg={formErrors[input.name]}
             formSubmit={formSubmit}
+            disabled={registerStatus.isLoading}
           /> 
-        ))}       
+        ))}  
+
         <div className="formInput">
           <label>Level</label>
           <select id="level" name="level" 
@@ -153,24 +193,26 @@ function Form(props) {
             <option value="elementary">Elementary</option>
             <option value="intermediate">Intermediate</option>
             <option value="advanced">Advanced</option>
+            <option value="advanced">Advanced</option>
+            <option value="advanced">Advanced</option>
           </select>
         </div>
       </form>
-      {
-        JSON.stringify(formErrors)
-      }
       <Box
         sx={{
-          height: '25px',
+          height: '20px',
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          padding: '8px 0px'
         }}
       >
         {registerStatus.err && 
         <Typography variant='body1' color='error'>Something went wrong!</Typography>}
         {registerStatus.success && 
-        <Typography variant='body1' color='success'>Successfully Registered</Typography>}
+        <Typography variant='body1' color='green'>
+          {registerStatus.result + " Is Successfully Registered"}
+        </Typography>}
       </Box>
       {
       registerStatus.isLoading ? 

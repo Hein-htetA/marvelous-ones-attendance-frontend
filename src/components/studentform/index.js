@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 import Form from './Form';
 import OutsideAlerter from './OutsideAlerter';
 import { LoginContext } from '../../App';
@@ -17,6 +15,7 @@ export default function StudentFormModal() {
         variant='contained'
         sx={{mt: 1}}
         disabled={isLogin ? false : true}
+        color='info'
       >
         Register New Student
       </Button>
