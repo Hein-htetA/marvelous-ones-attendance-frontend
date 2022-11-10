@@ -5,6 +5,11 @@ import * as React from 'react';
 export default function BasicSelectBatch({ onBlur, onChange, value, invalid, isLogin }) {
 
   const searchInput = React.useRef(null);
+  React.useEffect(() => {
+    if (isLogin) {
+      searchInput.current.focus();
+    }
+  }, [isLogin]);
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       searchInput.current.blur();
@@ -33,6 +38,7 @@ export default function BasicSelectBatch({ onBlur, onChange, value, invalid, isL
         onKeyDown={handleKeyDown}
         inputRef={searchInput}
         disabled={!isLogin}
+        
       />
       {invalid && <span>Invalid Batch Number</span>}
     </Box>

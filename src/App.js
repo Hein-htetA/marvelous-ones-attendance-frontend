@@ -1,7 +1,7 @@
 import { Box, Container } from "@mui/material";
 import TitleBar from "./components/titlebar";
 import Table from "./components/table";
-import { createContext, useEffect, useRef, useState } from "react";
+import { createContext, useState } from "react";
 import LoadingSpinner from "./components/loading";
 import SaveButtonGroup from "./components/table/SaveButtonGroup";
 import Welcome from "./components/welcome";
@@ -26,7 +26,7 @@ function App() {
       disableGutters={true}
       sx={{
         display: 'flex',
-        justifyContent: 'center'
+        justifyContent: 'center',
       }}
     >
       <Box 
@@ -35,7 +35,7 @@ function App() {
           flexDirection: 'column',
           width: '1000px',
           backgroundColor: 'white',
-          minHeight: '100vh'
+          minHeight: '100vh',
         }}
       >   
         <LoginContext.Provider value={isLogin}>
